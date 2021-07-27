@@ -3,7 +3,6 @@ package rocks.alexmihai.arr;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,8 +13,8 @@ public class DailyReturnRateCalculator {
     public double compute(Map<LocalDate, BigDecimal> investedByDate, LocalDate endDate, BigDecimal endAmount) {
         this.assertDates(investedByDate.keySet(), endDate);
 
-        this.assertAmounts(investedByDate.values());
-        this.assertAmount(endAmount);
+        this.assertAmounts(investedByDate);
+        this.assertFinalAmount(endAmount);
 
         double lowerBound = 0;
         double upperBound = this.determineUpperBound(investedByDate, endDate, endAmount);
@@ -85,13 +84,19 @@ public class DailyReturnRateCalculator {
         });
     }
 
-    private void assertAmounts(Collection<BigDecimal> amounts) {
-        amounts.forEach(this::assertAmount);
+    private void assertAmounts(Map<LocalDate, BigDecimal> investedByDate) {
+        LocalDate minDate = investedByDate.keySet().stream()
+                .min(LocalDate::compareTo)
+                .orElseThrow(() -> new IllegalArgumentException("No invested amounts provided"));
+
+        if (investedByDate.get(minDate).compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("First invested amount should be positive");
+        }
     }
 
-    private void assertAmount(BigDecimal amount) {
+    private void assertFinalAmount(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Invalid amount '" + amount + "'");
+            throw new IllegalArgumentException("Invalid final amount '" + amount + "'");
         }
     }
 }
