@@ -67,7 +67,7 @@ public class DailyReturnRateCalculator {
         for (LocalDate date : investedByDate.keySet()) {
             BigDecimal amount = investedByDate.get(date);
 
-            long days = ChronoUnit.DAYS.between(date, endDate);
+            long days = Math.max(1, ChronoUnit.DAYS.between(date, endDate));
 
             double finalAmount = amount.doubleValue() * Math.pow(arr, days);
             totalAmount += finalAmount;

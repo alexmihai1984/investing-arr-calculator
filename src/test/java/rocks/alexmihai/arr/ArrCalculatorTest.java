@@ -141,4 +141,36 @@ class ArrCalculatorTest {
         // Then
         assertEquals(1.1, arr, 0.001);
     }
+
+    @Test
+    void testComputeOnSameDayAsInitialDepositValueIncrease() {
+        // Given
+        var investedByDate = new HashMap<LocalDate, BigDecimal>();
+        investedByDate.put(LocalDate.of(2020, 1, 1), BigDecimal.valueOf(1_000_000));
+
+        var endDate = LocalDate.of(2020, 1, 1);
+        var endAmount = BigDecimal.valueOf(1_000_010);
+
+        // When
+        double arr = this.arrCalculator.compute(investedByDate, endDate, endAmount);
+
+        // Then
+        assertEquals(1.00365, arr, 0.001);
+    }
+
+    @Test
+    void testComputeOnSameDayAsInitialDepositValueDecrease() {
+        // Given
+        var investedByDate = new HashMap<LocalDate, BigDecimal>();
+        investedByDate.put(LocalDate.of(2020, 1, 1), BigDecimal.valueOf(1_000_000));
+
+        var endDate = LocalDate.of(2020, 1, 1);
+        var endAmount = BigDecimal.valueOf(999_990);
+
+        // When
+        double arr = this.arrCalculator.compute(investedByDate, endDate, endAmount);
+
+        // Then
+        assertEquals(0.99635, arr, 0.001);
+    }
 }
