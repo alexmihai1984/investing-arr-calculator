@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class ArrCalculator {
 
-    private final DailyReturnRateCalculator dailyReturnRateCalculator = new DailyReturnRateCalculator();
+    private final Calculator dailySearchBasedCalculator = new DailySearchBasedCalculator();
 
     public double compute(Map<LocalDate, BigDecimal> investedByDate, LocalDate endDate, BigDecimal endAmount) {
         return Math.pow(
-                this.dailyReturnRateCalculator.compute(investedByDate, endDate, endAmount),
+                dailySearchBasedCalculator.compute(investedByDate, endDate, endAmount),
                 365.25
         );
     }
