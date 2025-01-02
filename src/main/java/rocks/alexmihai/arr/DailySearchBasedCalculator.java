@@ -5,6 +5,16 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
+/**
+ * Computes the daily money-weighted rate of return needed to achieve `endAmount`. It does it by solving for
+ * `rateOfReturn` in the formula below. It solves by iteratively trying values closer to the right value through
+ * binary search.
+ * sum[0...n](cashFlow[i] / (1 + rateOfReturn)^daysHeld[i]) = endAmount
+ * - cashFlow[i] - amount of money either invested (positive) or withdrawn (negative)
+ * - rateOfReturn - value we are trying to find
+ * - daysHeld[i] - number of days from the moment of the cash flow to the final moment
+ * - endAmount - the final value of the investment
+ */
 public class DailySearchBasedCalculator extends Calculator {
 
     public static final double REQUIRED_PRECISION = 0.00000000000001;

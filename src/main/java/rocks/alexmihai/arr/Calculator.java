@@ -5,6 +5,10 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Base class for a calculator the performs validations and then delegates to the child class to implement the actual
+ * calculation in `doCompute`.
+ */
 public abstract class Calculator {
 
     public double compute(Map<LocalDate, BigDecimal> investedByDate, LocalDate endDate, BigDecimal endAmount) {

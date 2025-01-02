@@ -173,4 +173,23 @@ class ArrCalculatorTest {
         // Then
         assertEquals(0.99635, arr, 0.001);
     }
+
+    @Test
+    void testComputeWithYearlyDividend() {
+        // Given
+        var investedByDate = Map.of(
+                LocalDate.of(2018, 1, 1), BigDecimal.valueOf(100),
+                LocalDate.of(2020, 1, 1), BigDecimal.valueOf(-10),
+                LocalDate.of(2019, 1, 1), BigDecimal.valueOf(-10),
+                LocalDate.of(2021, 1, 1), BigDecimal.valueOf(-10)
+        );
+        var endDate = LocalDate.of(2022, 1, 1);
+        var endAmount = BigDecimal.valueOf(110);
+
+        // When
+        double arr = this.arrCalculator.compute(investedByDate, endDate, endAmount);
+
+        // Then
+        assertEquals(1.1, arr, 0.001);
+    }
 }
